@@ -10,6 +10,7 @@ node_modules/
 dist/
 target/
 build/
+debug/
 
 # Local scratch / cache
 .scratch/
@@ -24,3 +25,12 @@ build/
 # Python virtual environments
 venv/
 .env/
+
+# Rustfmt backups
+**/*.rs.bk
+
+# MSVC Windows debug symbols
+*.pdb
+
+# Cargo mutants
+**/mutants.out*/
