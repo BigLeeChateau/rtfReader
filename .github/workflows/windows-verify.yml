@@ -1,0 +1,37 @@
+name: Windows Build Verify
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  windows-build:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: prototype/rtf-reader-proto
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Rust tests (Windows-compatible)
+        working-directory: prototype/rtf-reader-proto/src-tauri
+        run: cargo test --lib -- --nocapture
+
+      - name: Build Tauri app
+        run: npm run tauri build
