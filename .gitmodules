@@ -1,0 +1,3 @@
+[submodule "prototype/rtf-reader-proto/deps/libemf2svg"]
+	path = prototype/rtf-reader-proto/deps/libemf2svg
+	url = https://github.com/kakwa/libemf2svg.git
