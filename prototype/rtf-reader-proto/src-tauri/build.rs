@@ -32,12 +32,14 @@ fn build_libemf2svg() {
     }
 }
 
+#[cfg(not(target_os = "windows"))]
 fn find_cmake() -> String {
     // Prefer pip-installed cmake on macOS.
-    let pip_cmake = PathBuf::from(env!("HOME"))
-        .join("Library/Python/3.9/bin/cmake");
-    if pip_cmake.exists() {
-        return pip_cmake.to_string_lossy().to_string();
+    if let Ok(home) = std::env::var("HOME") {
+        let pip_cmake = PathBuf::from(home).join("Library/Python/3.9/bin/cmake");
+        if pip_cmake.exists() {
+            return pip_cmake.to_string_lossy().to_string();
+        }
     }
     "cmake".to_string()
 }
