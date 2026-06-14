@@ -879,12 +879,24 @@ DYLD_LIBRARY_PATH="$(pwd)/../deps/libemf2svg/build/lib:$DYLD_LIBRARY_PATH" cargo
 
 ---
 
-## 四、下一步
+## 四、CI 验证结果
 
-将当前改动提交并推送到 GitHub 后，工作流会自动在 `windows-latest` runner 上运行。首次运行可能会暴露以下问题：
+推送后 GitHub Actions 自动运行，**构建成功**。
 
-1. **WebView2 runtime**：`windows-latest` runner 通常已预装 Edge/WebView2，但如果缺失，Tauri build 会报错。
-2. **Windows SDK**：Tauri 需要 Windows SDK，runner 上一般已存在。
-3. **MSVC toolchain**：Rust stable 在 Windows 上默认使用 `x86_64-pc-windows-msvc`。
+- 工作流：`Windows Build Verify`
+- Run URL：`https://github.com/BigLeeChateau/rtfReader/actions/runs/27488352483`
+- 状态：`completed` / `success`
 
-如果 CI 失败，根据日志再做针对性修复（例如安装 WebView2 或调整 Tauri 构建参数）。
+验证内容：
+- `cargo test --lib` 在 `windows-latest` 上通过。
+- `npm run tauri build` 在 `windows-latest` 上通过。
+
+## 五、结论
+
+| 假设 | 结果 | 说明 |
+|---|---|---|
+| Tauri 应用能在 Windows 上编译打包 | ✅ 通过 | GitHub Actions 成功生成 Windows 安装包。 |
+| 解析器/表格测试能在 Windows 上运行 | ✅ 通过 | `cargo test --lib` 全部通过。 |
+| Windows EMF 转换可用 | ⏳ 待实现 | 当前为占位错误；后续按 ADR 0002 接入 GDI+。 |
+
+Windows 构建验证已结束，剩余风险仅为 EMF 图片渲染路径，不影响项目进入正式开发阶段。

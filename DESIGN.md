@@ -247,7 +247,7 @@ RTF 批注结构示例:
 ### Phase 0: 进入开发前的最后验证（🔄 进行中）
 
 - [x] **批注 roundtrip 原型**：生成带批注的 RTF → LibreOffice 打开 → 验证可见（`tools/test-annotation-roundtrip.py`）
-- [ ] **Windows 最小构建验证**：GitHub Actions `windows-latest` 跑通 Tauri build + 解析器测试（workflow 已创建：`.github/workflows/windows-verify.yml`）
+- [x] **Windows 最小构建验证**：GitHub Actions `windows-latest` 跑通 Tauri build + 解析器测试（`.github/workflows/windows-verify.yml`）
 - [ ] **真实 SAS TFL 验证**：拿到真实文件后，跑通解析、表格渲染、EMF 转换
 
 ### Phase 1: 基础搭建（已完成）
@@ -405,7 +405,7 @@ TFL 文档天然分块：Listing 1 → Table 1 → Figure 1 → Table 2 → ...
 | 首屏打开过慢 | 🟢 已缓解 | 图片转换阻塞解析线程 | 首屏只解析文本/表格，图片完全延后加载（占位框） |
 | 真实 SAS EMF 兼容性 | 🟡 中 | SAS 生成的 EMF 可能与 devEMF 不同 | Phase 0 gate：拿到真实文件后立即验证；SVG 异常时用 `resvg` fallback PNG；完全失败时占位框 |
 | macOS fontconfig 配置缺失 | 🟢 已缓解 | 目标机器无 Homebrew 时字体回退异常 | `bundle-dylibs.sh` 打包最小 `fonts.conf`，启动时设置 `FONTCONFIG_PATH` |
-| Windows 打包与 EMF 路径 | 🟡 中 | Windows 上 libemf2svg 编译与打包未验证 | GitHub Actions `windows-latest` 最小构建验证；Windows 可改用 GDI+ |
+| Windows 打包与 EMF 路径 | 🟢 已缓解 | Windows 上 libemf2svg 编译与打包未验证 | GitHub Actions `windows-latest` 已通过 Tauri build + 解析器测试；EMF 路径待 GDI+ 实现 |
 | 批注 roundtrip 兼容性 | 🟡 中 | Word 可能不识别我们生成的批注 | Phase 0 补充最小 roundtrip 原型；自动化 Word/LibreOffice 测试 |
 
 ---
